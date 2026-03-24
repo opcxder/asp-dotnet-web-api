@@ -29,6 +29,10 @@ namespace Basic.Service
         // Create product
         public void CreateProduct(Product product)
         {
+            if (string.IsNullOrEmpty(product.Id))
+            {
+                product.Id = Guid.NewGuid().ToString();
+            }
             _products.InsertOne(product);
            
         }

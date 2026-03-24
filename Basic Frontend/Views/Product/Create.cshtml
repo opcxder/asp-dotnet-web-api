@@ -1,0 +1,38 @@
+﻿@model Basic_Frontend.Models.Product
+
+
+<h2> Create Product: </h2>
+<p>Fill out the details to create form</p>
+
+@if (!ViewData.ModelState.IsValid)
+{
+	<div class="alert alert-danger">
+		@Html.ValidationSummary()
+	</div>
+}
+else
+{
+
+
+	<form asp-action="Create" method="post">
+
+		<div>
+			<label>Name</label>
+			<input asp-for="Name" class="form-control" />
+		</div>
+
+		<div>
+			<label>Description</label>
+			<input asp-for="Description" class="form-control" />
+		</div>
+
+		<div>
+			<label>Price</label>
+			<input asp-for="Price" class="form-control" />
+		</div>
+
+		<button type="submit">Create</button>
+
+	</form>
+
+}

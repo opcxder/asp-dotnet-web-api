@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Basic_Frontend.Models.Product>
+@*tells this view, what kind of data will be coming from the controller.... *@
+
+@{
+	int count = 1;
+}
+
+<h2>Product List:</h2>
+
+@if (!ViewData.ModelState.IsValid)
+{
+	<div class="alert alert-danger">
+		@Html.ValidationSummary()
+	</div>
+}
+else
+{
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>S.No</th>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Price</th>
+				<th>Edit</th>
+				<th>Delete</th>
+
+			</tr>
+		</thead>
+
+		<tbody>
+			@if (Model != null && Model.Any())
+			{
+				foreach (var product in Model)
+				{
+					<tr>
+						<td>@count</td>
+						<td>@product.Name</td>
+						<td>@product.Description</td>
+						<td>@product.Price</td>
+						<td>
+							<a href="/Product/Edit/@product.Id" class="btn btn-warning">Edit</a>
+						</td>
+						<td>
+							<a href="/Product/Delete/@product.Id" class="btn btn-danger">Delete</a>
+						</td>
+					</tr>
+
+					count++;
+				}
+			}
+			else
+			{
+				<tr>
+					<td colspan="4">No product found...</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+<a href="/Product/Create" class="btn btn-primary">Add Product</a>
