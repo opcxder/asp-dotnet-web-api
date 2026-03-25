@@ -1,5 +1,6 @@
 ﻿using Basic.Models;
 using Basic.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -100,5 +101,12 @@ namespace Basic.Controllers
             return NoContent();
         }
 
+
+        [Authorize]
+        [HttpGet("secure")]
+        public  IActionResult  Secure()
+        {
+            return Ok("Secure line you got access");
+        }
     }
 }
