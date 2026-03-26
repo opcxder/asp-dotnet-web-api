@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Basic.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase    

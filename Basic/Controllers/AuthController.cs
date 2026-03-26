@@ -15,6 +15,7 @@ namespace Basic.Controllers
 
 
         private readonly UserService _userService;
+       
         private readonly IConfiguration _configuration;
 
         public AuthController(UserService userService , IConfiguration configuration)
@@ -83,10 +84,14 @@ namespace Basic.Controllers
                  new Claim(ClaimTypes.Name ,  user.Username)
             };
 
+            //this is used when we have implemented the symetric signing 
+            //var key =   new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
 
-            var key =   new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            //var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var rsa = AuthService.LoadRsaKey();
+            var key = new RsaSecurityKey(rsa);
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.RsaSha256);
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],

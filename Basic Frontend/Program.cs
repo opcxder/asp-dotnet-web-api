@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddHttpClient();  //addming the dependency of http client, 
+builder.Services.AddHttpClient();  //adding the dependency of http client, 
 
 var app = builder.Build();
 

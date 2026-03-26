@@ -2,6 +2,7 @@
 using Basic.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Cryptography;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,11 +43,14 @@ builder.Services.AddSwaggerGen(options =>
 
 //adding our service which allow the dependency injection at runtime.
 builder.Services.AddSingleton<UserService>();
+//builder.Services.AddSingleton<AuthService>();
 
 //for the unabling  the authentication and authorization 
 // configuring the jwt token
 var key = builder.Configuration["Jwt:Key"]
           ?? throw new Exception("JWT Key missing");
+
+var rsa = AuthService.LoadRsaKey();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -64,9 +68,10 @@ builder.Services.AddAuthentication(options =>
 
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(key)
-        ),
+        //IssuerSigningKey = new SymmetricSecurityKey(
+        //    Encoding.UTF8.GetBytes(key)
+        //),
+        IssuerSigningKey = new RsaSecurityKey(rsa),
         ClockSkew = TimeSpan.Zero
     };
 });
